@@ -1,0 +1,17 @@
+DumbList; A general purpose list implementation, allows any values, works in the second row of its own layer - much more memory intensive than ArrayList, but with less upfront cost, and somewhat quicker - a good choice for a list of < 10 elements.
+
+initialise (0,0): : ; Just sets the size to zero
+
+size (2,1); The current length of the <DumbList>
+
+add (0,2): <value>: ; Appends <value> onto the end of the list.
+
+get (0,4): <index>: <value> ; Gets the value at the position <index>, guaranteed to return a type from <initialise:types>. <index> has to be < <size>.
+
+add-index (0,6): <value>,<index>: ; Adds <value> into the end of the list so that it is at index <index> (i.e. get of <index> returns <values>), moving other elements up (<index> has to be <= <size>).
+
+set-index (0,6): <value>,<index>: ; Sets the value at <index> to be <value> only changes the length of the list if <index> == <size> (<index> has to be <= <size>)
+
+remove-index (0,10): <index>: ; Removes the value at <index> from the list, moving other values back. <index> has to be < <size>.
+
+index-of (0,10): <value>:<index> ; Finds <value> in the list, if it is there, returns the lowest <index> such that get, when given <index> returns <value>. If <value> is not in the list, returns -1.

@@ -1,0 +1,154 @@
+Command list (the commands inherited from ><> and *><> are not explained in detail, the origin of a command group can be seen in the second column of each row):
+;				><>
+>^<v /\_|#		><>
+!?x 			><>
+0-f 			><>
++-*,%			><>
+=() 			><>
+'" 				><>
+:~$@}{rl[]&		><>
+o n i			><>
+pg				><>
+j				.><>\\.:. 	same as . in ><> - the only incompatibility with normal ><>
+JPG				.><>\\.:. 	3d version of the above (and .@J is the same as j)
+ID				*><> 		change stack
+L				.><>\\.:. 	# of stacks
+t				.><>\\.:. 	pops a type value from stack, then changes next element to that type (the type of a cell is set to the type written to it, defaulting to a 1 byte number containing 0)
+T				.><>\\.:.	pushes the type of the top element of the stack onto the stack
+CR				*><>		2d call/return
+mM				.><>\\.:.	3d call/return
+uU				.><>\\.:.	serves same purpose as uO in *><> - dive/rise
+.				.><>\\.:.	starts a new thread at (3d) position specified in same direction as current, taking the current stack and giving it to the new thread
+
+O				.><>\\.:.	triggers given layer (like a call, but can invoke native code/code on another frame - always takes the current stack as its arguments, having popped to get the layer number)
+N				.><>\\.:.	creates new 'layer', pops for layer type
+							- 1st argument is type - bit field with bits representing supported types for cells
+							- 2nd is whether it holds its own trigger (0 means it does not, and 2 values are popped, and used as coordinates in this frame for trigger to jump to, otherwise simply jumps to 0,0 in layer)
+							- 3nd is whether it is finite - and in what direction, numbers are popped and used as size for each finite direction (y then x)
+								the layer number for the new layer is pushed
+wW				.><>\\.:.	2d/3d multiple write - pops the position, pops the value to write, then pushes the position incremented/decremented in the direction of motion
+yY				.><>\\.:.	2d/3d multiple read - pops the position, pushes the value read, then pushes the position incremented/decremented in the direction of motion
+
+`				.><>\\.:.	pushes the current layer number onto the stack
+S				.><>\\.:.	pushes the size info of a layer onto the stack - first the dimensions (y then x), then 0 if fixed size, 1 if infinite in x, 2 if infinite in y 3 if infinite in both, then a bitfield for what types are allowed
+X				.><>\\.:.	pops a layer number and removes that layer (try to avoid layer-leaks) will execute 'M' on all Ip's in that layer
+s				.><>\\.:.	pops a number and sleeps for that many ms
+z				.><>\\.:.	swaps two most recent stacks (like a meta-$)
+Z				.><>\\.:.	swaps three most recent stacks (like a meta-@)
+E				.><>\\.:.	kills the whole program with an error condition - writing the current stack as if r>o< was executed
+
+
+.><>\\.:. is mostly backwards compatible with ><> (it's not like there exist massive ><> libraries anyway), and has some inspiration from *><> as well as attempting to allow native code execution, and library loading, along with basic object orientation. Any .><>\\.:. code written with Object Orientation in mind can be written ><OO>\\.:. (pronounced Object Orientated Fish - in contexts like this the "chips and mushy peas" section is optional). Any release of ><>\\.:. including the .|> files is an ><D>\\.:. (pronounced F(CMP)DK or Fish (Chips and Mushy Peas) Development Kit (the CMP/chips and mushy peas is optional) - inspired by the JDK). 
+Any attempt to compile a single '.><>\\.:.' file into a more compact form (however futile) will result in a file with a '.><->' (pronounced FlatFish) extension (info about the compilation method may be conveyed in other ways, e.g. the foo compiler may turn List.><>\\.:. into List.foo.><->).
+An executable non-compressed collection of multiple .><>\\.:. files is a '.><(=)>' file (also called a 'School File'). 
+An executable compression of multiple .><>\\.:. files is a '.><=>' file (also called a 'Flat School File'). 
+As a note on naming convention, the "\\.:." is generally ommited if the format is considered "live" - that is ready to run. If the code is intended as a library or otherwise not intended to be run directly, then it is mandatory to include the "\\.:." on the end of any of these file extensions.
+Windows compatible versions of these are: ".><>\\.:." is ".fcmp" , a ".><->" is a ".ff", ".><(=)>" is ".sf", and ".><=>" is ".fsf". 
+The "cmp" is appended to any of these in the same conditions as the "\\.:.".
+
+layer 0 is always the 'loader' which can load either other pieces of code, or load native layers - triggering this layer attempts to load code based on the values set, before clearing the layer - fails if the layer does not specify a valid load. Triggering always returns the layer ID for the new layer created (a successful trigger always results in a new layer).
+
+normally used by writing a file-name into it to load more .><>\\.:. or a utility name for some native code.
+If a file-name is written into it, a new thread is started (with an empty stack) at 0,0 in the new file, moving east. This is like the constructor, and care should be taken to seperate this from a trigger (which will have a non-empty stack, containing values depending on the trigger)
+
+Any thread which returns (R or M) when it has no remaining stacks is terminated without error (as if it hit a ;), where ']' is considered an error in this case. This includes cases where D is used to put the current stack behind the most recent stack.
+
+Any 0 value integer cells may ignore their own type, and read as a character with value 0, so as to allow them to be forgotten, and every infinite layer must support bytes as a valid type
+
+type values: 0 = character (8 bit), 1/2 = 32/64 bit int, 3/4 = single/double float
+
+., O, j, J, C and m ensure that the instruction jumped to is executed but R and M do not, so the return will never repeat the call. All instructions are run before the instruction pointer moves on
+
+All values between 0 and 127 are considered valid instructions, but all those not specified do nothing. It is encouraged to use spaces to fill blank spaces, as letters not specified here may be used in future updates of .><>\\.:. 
+
+
+
+
+
+
+
+
+
+When files are parsed to be loaded, any lines of lengths shorter than the longest are artificially padded to width.
+All spaces in the files are loaded as cells with value 0 and all cells are loaded with a type of byte. ><>\\.:. files cannot be written when loaded as normal (although by loading them as data files using the native file loader, they can be). 
+
+
+Files are expected to either have the ending '.><>\\.:.' or '.fcmp' (both pronounced 'dot fish chips and mushy peas' or 'dot fcmp') and a '.|>' or '.fh' (both pronounced 'dot fish head' or 'dot fh') file may be provided to give headers to lable functions in the file of the same name. These headers are designed to parsable by an IDE, to give extra information. One header is given per line, with the several types of line:
+The first line has the form:
+Name; text
+The Name gives the overall ><>\\.:. file name, and the text is a general description (it cannot be called 'Note'). It is encouraged to capitalise the Name, and use CamelCase
+
+A trigger line is in the following form:
+trigger v>: 123.9,<ident1>,<ident2>,<ident3> : <ident4>, 456 ; text
+
+A initialise line is in the following form:
+initialise: 123.9,<ident1>,<ident2>,<ident3> : <ident4>, 456 ; text
+
+A method line is in the following form:
+name v> (x,y): 123,<ident1>,<ident2>,<ident3> : <ident4>, 456 ; text
+
+A value line is in the following form (specifies a value which can be found at a particular location):
+name (x,y); text
+
+A note line is in the following form:
+Note (x,y); text
+and simply acts as a comment at the (x,y) position.
+
+The name can be any string containing no brackets, whitespaces, new lines, ':'s, '<'s or '>'s, and is not the words 'trigger', 'initialise', 'Note' or the overall name of the file. It is encouraged not to capitalise the method name, although it is encouraged to use camelCase for all names. The (x,y) give the coordinated at which the method call occurs, in decimal, and can have spaces anywhere between the numbers. If the (x,y) is not given, it is presumed to be (0,0).
+Multiple descriptions can be provided of the same method name (for different values/directions)
+
+
+The remainder is the same for both the trigger and normal methods:
+The 'v>' before the first ':' can be any set of directions (so one of 'v', '>', '^', '<'), and indicates what happens if the method is executed in one of these directions (any number of directions can be specified, provided none are repeated). If this is ommited, the method is taken to be the same in all directions. The direction specification always comes before the location, and is seperated from the name by a space. 
+initialise methods do not have a direction specified, and can be defined for native code.
+The first csv section (between the first and second ':'s) is the stack expected on call, the section beyond the : is the return value, containing the stack returned. 
+Numbers are given in decimal and indicate requrements for that kind of trigger/method call, and <ident> is an identifier which can be used to refer to that element in the text given using the same <ident> as in the list. 
+Both stacks are given with the top element of the stack first. Spaces can be inserted anywhere between the numbers and identifiers. 
+
+Every piece of text has all preceeding spaces and \'d new lines  trimmed, so 
+
+Name;   text
+
+Name;text
+
+Name;  \
+  text
+
+are all treated as the same.
+Identifiers can be any text string not containing whitespace, new lines, '<', '>', ':'. Any occurance of this, where there is no defined identifier associated must be left unchanged. Identifiers can only be defined as method or module names, or method arguments/return values.
+Text can be any string, provided every new line in the string is preceded by a '\', and can reference things elsewhere in the file using <ident>. Only the methods by default have access to their arguments and return values, and text only has access to identifiers in the same file. 
+Positions are also identifiers, so <(x,y)> refers both to the position (x,y), and any notes about that position.
+Methods, triggers and the overall Name are all considered identifiers (so can't be used elsewhere as other identifiers). Note that when refering to a method with multiple descriptions, an identifier refers to all of the descriptions. If only one direction or location or direction of this is wanted, use <aaaa v.>, <aaaa (x,y)>, <aaaa v. (x,y)> (substituting '.' for '>', and ',' for '<') to refer to different specifications of the method <aaaa>.
+
+To refer to something outside of this, use: <name:identifier> to refer to the identifier in a the method call <name> with the name <identifier> (e.g. <add:index>).
+Use <AAAA:bbbb> to refer to something in the file with the AAAA with the identifier bbbb (such as <LinkedList:add> or <LinkedList:(x,y)>), and <AAAA:bbbb:cccc> to refer to identifier cccc in method bbbb in file AAAA (such as <LinkedList:add:index>). If there is still ambiguity, then this must be presented to the user as a list of possibilities. The AAAA refers to the name defined in the '.|>' file, not the file name itself.
+
+The '.|>' files can be used both to improve readability of code by adding comments, and to provide doccumentation for external use (e.g. for a library). An 'exploration window' may be provided to allow navigation of the identifiers as links, and this may provide links to source code. This explorer must allow all varients of a method to be viewed if it is given multiple descriptions. 
+'.|>' files can also be used to document native code, but in this case they cannot contain any non-trigger methods, and can contain no Notes.
+
+
+Any other lines (other than lines containing only whitespace, which are ignored) result in a parsing error.
+It is a parsing error to give the same direction multiple times.
+The text may be ommited:
+Name
+trigger v>: 123.9,<ident1>,<ident2>,<ident3> : <ident4>, 456
+name v> (x,y): 123.9,<ident1>,<ident2>,<ident3> : <ident4>, 456
+
+The arguments can be ommited if there are none:
+name (x,y): : <ident4>, 456 ; text
+The return values can be ommited if there are none:
+name (x,y): 123.9,<ident1>,<ident2>,<ident3> : ;text
+and all three can be ommited (both colons must still be included):
+name (x,y): :
+
+
+Note that the '.><>\\.:.' and '.|>' file extensions work fine on Linux (though require many \'s), but not Windows, which will look at you and ask you what the hell you think you're doing, so for compatibility's sake a full set of all libraries will be provided in both extension formats. This matters much less in production enviroments, where most systems are Linux based anyway. Since the current interpreter and IDE is written in Java, cross-system compatibility is easy in every other way, so there is an argument that Windows isn't needed on any machine used to work on .><>\\.:. code. Generally the '.><>\\.:.' and '.|>' extensions are preferred, except where compatibility causes issues. Note that care should be taken when downloading the libraries for a windows system to ensure the 'capatibility mode' file extensions are used.
+
+Yes I am doing this to get back at Windows for all the times things have been 'Windows only' in the past. Mwahahaha, mine is an evil laugh.
+
+
+Have I massively over-engineered a language which nobody will ever use? Yes. Will that stop me? No.
+
+only have 
+hkqABFHKQV
+left as possible instructions (V left deliberately un-used) in printable ascii... maybe I've used a few too many? Nah, it'll be fine, .><>\\.:.++ can just use UTF-8.

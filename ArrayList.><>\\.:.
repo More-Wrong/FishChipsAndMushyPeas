@@ -1,0 +1,28 @@
+>:31p&a131&N01p a11p 021pM
+         >11g2*:11p 1 31 31g N 41p 0f1+2[C 01g21g0P21g1+21pM
+>11g21g=?^01g21g0P21g1+21pM
+        >"Array index out of bounds"E
+>:21g(?!^01g$0GM
+                 >11g2*:11p 1 31 31g N 41p 0f1+2[Cv                     +1<
+> :21g)?^21g11g=?^                                >:01g$0G$:{$01g$0P:21g=?^~~21g1+21pM      
+               >`02mM
+> :21g)?^:21g=?^01g$0PM v                        +1<
+                 >                                  >21g1-:21p11g3,(?v~M
+>:21g(?!^:21g1-=?^      >::1+01g$0G$01g$0P:21g1-=?!^^                >11g2,::?!1 ?!+ :11p 1 31 31g N 41p 0f1+2[C~M
+   M~$v!?=}:{G)$g10:<   
+>01-1t>1+:21g=    ?!^~~01-M
+
+
+      vP0$g14$G0$g10::<
+>01t1-> 1+:21g     =?!^01gX41g01p041p~R
+
+
+
+(0,1) holds the current array's layerId
+(1,1) holds the current assigned length
+(2,1) holds the current length
+(3,1) holds the supported types
+(4,1) holds the new array's layerId
+
+hidden method:
+16: copy to new array

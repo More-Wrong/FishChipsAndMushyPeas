@@ -1,0 +1,27 @@
+>01t21pM
+         
+>21g8+1p21g1+21pM
+        >"Array index out of bounds"E
+>:21g(?!^8+1gM
+           v  p1${+8:$g1+8:<
+> :21g)?^1-> 1+:g21=     ?!^1p21g1+21pM      
+               >`02mM
+> :21g)?^:21g=?^1pM   v  p1${+8:$g1+9:<         
+                 >                     >~021g7+1p21g1-21pM
+>:21g(?!^:21g1-=?^  1-> 1+:21g1-=   ?!^^
+   M~$v!?=}:{g1+8:<   
+>01-1t>1+:21g=  ?!^~~01-M
+
+
+
+(2,1) holds the current length
+
+list lives at (x+8,1)
+
+0: init
+2: add
+4: get
+6: add index
+8: set index
+10: remove index
+12: index of (-1 if not contained)

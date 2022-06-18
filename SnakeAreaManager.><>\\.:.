@@ -1,0 +1,65 @@
+>:41p$:31p$ 011N:01p:2$00P:3$10P:4$20P:5$30P :01-$55P:1$c1p   50f`31g41g{ 0["SnakeWindowHandler"r000WWWWWWWWWWWWWWWWWP]7[0Ov                                       
+                                                                                                                     
+                                                                                                      ;p170p161p155p120 p11<                                       
+                                   >~$1-:0(@$@@      v                                   find new apple position                    
+                                        >~$1+:41g=@${v                                  v                                          ~~<
+>00>$:@$:@01g@$G51g=  ?!v   21g:3=?^:1=?^0=?v1-:0(   >?v$:@$:@01g@$G:1)?v01-=?!v81g3+81p>0[40af+C31g%0[40af+C41g%$:@$:@01g@G:0=?v1=?v^                                       
+   ^           v?=g13:+1<                   >1+:31g= ^ v                <      v                        P@g10@-10              ~<0  <
+   ^0v?=g14:+1~<                                                               >071p51g1+@01g@$P81g0=?!v0[0ff+C         >0[11g04mM                                      
+     >'No snake head found'E                                                                                            ^      <               
+                                                                                                       >51g1+:51p11g71P81g1-81p^      
+                                                       >71g?v171p~~l?~fa*sM                                                                  
+                                                            >0[0ffa++C~~l?~M                                                             
+                                                        
+       >      >      >      >      >      >      >      >:21g2+4%=?M171p21p~M      
+       3      3      2      2      1      1      0      0    
+>:'w'=?^:'W'=?^:'a'=?^:'A'=?^:'s'=?^:'S'=?^:'d'=?^:'D'=?^~M    the input callback
+                                                                                                                
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+  >R                                                        
+  ^~v?:-1$  +<< <                                                                    
+    $     >  ^0                                                                      
+>01t>4*  !^ !3x1^ the random number generator - takes number of pairs of bits, gives that many bits of randomness (up to 32 bit)                                       
+              2                                                                      
+              > ^                                                                      
+                                                   
+                                                   
+>00>$:@$:@01g@$G:0)    ?!v}$:@$:@{1-@01g@$Pv  frame move along - if a cell has a value >0, decrement it                                                 
+   ^           v?=g13:+1~<0                <                      
+   ^0v?=g14:+1~<                                                      
+     >~R                                                 
+                                                   
+                                                   
+                                                   
+                                                         
+                                                   
+                                                   
+>00>$:@$:@01-@01g@$P   v               die: for each cell in rows, one by one, set them to -1                                                
+   ^          v?=g13:+1<                                   
+              >0[11g04m~0>$:@$:@0@01g@$Pv then tell the system to stop drawing them                                              
+                         ^     v?=g13:+1<      
+   0                           >~1+:41g=?v v                                                    
+   ^                                       <                                                               
+v                                       ~<
+>00>$:@$:@1@01g@$P     v         set each row to 1 one at a time, making them black                                                
+   ^          v?=g13:+1<                                   
+              >0[11g04m~0>$:@$:@0@01g@$Pv  then tell the system to stop drawing them by setting them to 0                                           
+                         ^     v?=g13:+1<      
+   0                           >~1+:41g=?v v                                                    
+   ^                                       <                                                               
+v                                       ~<
+>021p551p081p071p 511g71P 01g :01p:2$00P:3$10P:4$20P:5$30P:1$c1p 01-$55P 0[11g04mR   reset the game
+
+                                                    
+01 is the snake layer
+11 is the window handler layer
+21 is the direction (0 for east, 1 for south, 2 for west, 3 for north
+31 is the x size
+41 is the y size
+51 is the snake length
+71 is whether the game should move on despite impact possibility
+81 is how much growth is left 

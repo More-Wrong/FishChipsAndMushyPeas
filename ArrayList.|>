@@ -1,0 +1,17 @@
+ArrayList; A general purpose list implementation, working off of a seperate fixed-size frame (resized to double/half size when full/below 1/3 capacity). The frame only allows values as given by <initialise:types>
+
+initialise: <types>: ; Basic initialisation (called automatically on load), creates an initial capacity of 10 and allows types as specified in the bit field <types>
+
+size (2,1); The current length of the <ArrayList>
+
+add (0,2): <value>: ; Appends <value> onto the end of the list, expanding the list if nessesary. <value> has to be of a type from <initialise:types>
+
+get (0,4): <index>: <value> ; Gets the value at the position <index>, guaranteed to return a type from <initialise:types>. <index> has to be < <size>.
+
+add-index (0,6): <value>,<index>: ; Adds <value> into the end of the list so that it is at index <index> (i.e. get of <index> returns <values>), moving other elements up and expanding the list if nessesary. <value> has to be of a type from <initialise:types> (<index> has to be <= <size>)
+
+set-index (0,6): <value>,<index>: ; Sets the value at <index> to be <value> only changes the length of the list if <index> == <size> (<index> has to be <= <size>)
+
+remove-index (0,10): <index>: ; Removes the value at <index> from the list, moving other values back, and shortening the assigned space if this puts the list below 1/3 occupancy. <index> has to be < <size>.
+
+index-of (0,10): <value>:<index> ; Finds <value> in the list, if it is there, returns the lowest <index> such that get, when given <index> returns <value>. If <value> is not in the list, returns -1.
